@@ -2,6 +2,8 @@
 
 Authored by Taylor Dunivin for EDAMAME2016 based on a previous tutorial by Qiong Wang for EDAMAME2015 
 
+[EDAMAME-2016 wiki] (https://github.com/edamame-course/2016-tutorials/wiki)
+
 ***
 EDAMAME tutorials have a CC-BY [license](https://github.com/edamame-course/2015-tutorials/blob/master/LICENSE.md). _Share, adapt, and attribute please!
 ***
