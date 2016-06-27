@@ -88,5 +88,20 @@ samtools index SRR098038.sorted.bam
 
 ## Visualizing alignment
 
+```
+samtools tview SRR098038.sorted.bam REL606.fa
+```
 
 ## counting alignments
+
+```
+samtools view -c -f 4 SRR098038.bam
+```
+
+## Calling SNPs
+```
+samtools mpileup -uD -f REL606.fa SRR098038.sorted.bam | bcftools view -bvcg - > SRR098038.raw.bcf
+```
+
+## Make count table
+
