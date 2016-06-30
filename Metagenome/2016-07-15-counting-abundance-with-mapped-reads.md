@@ -6,7 +6,7 @@ Authored by Jin Choi for EMAMAME2016 based on a previous tutorial by Adina Howe
 
 ##Learning Objectives
 * Understanding mapping file
-* Use mapping program
+* Use mapping program(Bowtie2, samtools, bcftools)
 * Counting
 
 ## Mapping and counting useful when,,
@@ -25,12 +25,14 @@ apt-get -y install screen git curl gcc make g++ python-dev unzip \
 ## Install software
 ```
 cd 
-wget -O bwa-0.7.15.tar.bz2 https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.15.tar.bz2/download
-tar xvfj bwa-0.7.15.tar.bz2
-cd bwa-0.7.15
-make
-
-cp bwa /usr/local/bin
+wget wget http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/bowtie2-2.2.9-linux-x86_64.zip
+unzip bowtie2-2.2.9-linux-x86_64.zip
+mv bowtie2-2.2.9 BT2_HOME
+```
+Set up path(you need to set up path again if you are logged in later):
+```
+PATH=$PATH:~/BT2_HOME
+export PATH
 ```
 
 install samtools
@@ -39,13 +41,16 @@ apt-get -y install samtools
 ```
 
 ## Download data
+First, download referene sequence
 ```
 cd ~/
 mkdir mapping_counting
 cd mapping_counting
 curl -O http://athyra.idyll.org/~t/REL606.fa.gz
 gunzip REL606.fa.gz
-
+```
+Then, download sequencing file
+```
 curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR098/SRR098038/SRR098038.fastq.gz
 ```
 
@@ -54,16 +59,12 @@ Now let’s map all of the reads to the reference. Start by indexing the referen
 ```
 cd ~/mapping_counting
 
-bwa index REL606.fa
+bowtie2-build REL606.fa REL_reference
 
 ```
-Now, do the mapping of the raw reads to the reference genome:
+Now, do the mapping of the raw reads to the reference genome (this would be done with -1 and -2 if these were paired-end reads):
 ```
-bwa aln REL606.fa SRR098038.fastq.gz  > SRR098038.sai
-```
-Make a SAM file (this would be done with ‘sampe’ if these were paired-end reads):
-```
-bwa samse REL606.fa SRR098038.sai SRR098038.fastq.gz > SRR098038.sam
+bowtie2 -x REL_reference -U SRR098038.fastq.gz -S SRR098038.sam
 ```
 
 This file contains all of the information about where each read hits on the reference.
@@ -110,14 +111,14 @@ This command:
 ```
 samtools view -c -f 4 SRR098038.bam
 ```
-will count how many reads DID NOT align to the reference (214518).
+will count how many reads DID NOT align to the reference (207029).
 
 This command:
 
 ```
 samtools view -c -F 4 SRR098038.bam
 ```
-will count how many reads DID align to the reference (6832113).
+will count how many reads DID align to the reference (6839602).
 
 And this command:
 
