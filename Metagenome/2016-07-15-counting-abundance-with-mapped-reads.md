@@ -1,20 +1,27 @@
-#Mapping and counting of metagenome data
-Authored by Jin Choi for EMAMAME2016 based on a previous tutorial by Adina Howe
+#Estimating abundances in metagenomesAuthored by Jin Choi for EDAMAME2016 
 
-## Overarching Goal
-* This tutorial will contribute towards an understanding of **metagenome data**
+## Summary
 
-##Learning Objectives
-* Understanding mapping file
-* Use mapping program(Bowtie2, samtools, bcftools)
-* Counting
+### Overarching Goal
+* This tutorial will contribute towards an understanding of quantitative analyses of **metagenome data**
 
-## Mapping and counting useful when,,
-* If you want to find point mutation when you sequence pure culture
-* If you assemble your multiple sample by yourself when you sequence metagenomic sample
-* If you want to generate gene expression table when you sequence transcriptomic/metatranscriptomic sample
+### Learning Objectives
+* Understanding how to estimate abundances of reads in a representative gene reference
+* Understanding read mapping
+* Understanding mapping file formats
+* Understanding how to use a mapping program (Bowtie2, samtools, bcftools)
+* Apply reference mapping to assess read abundances and quantify gene presence
 
-## updating the operating system
+### Reference mapping is useful... 
+* If you want to detect SNPs
+* If you want to estimate abundance of genes in metagenomic or metatranscriptomic data
+
+## Tutorial
+
+@Jin - add AMI information or what the assumption of the system they are on -- base Ubuntu I think
+@Jin - add an overview - what is the point, objective?  Imagine you have a metagenome created to study and the reference is...etc.
+
+### Setting up operating system
 ```
 apt-get update
 apt-get -y install screen git curl gcc make g++ python-dev unzip \
@@ -22,26 +29,29 @@ apt-get -y install screen git curl gcc make g++ python-dev unzip \
         r-cran-gplots python-matplotlib sysstat
 ```
 
-## Install software
+## Install mapping software for this tutorial, Bowtie2 and SamTools
 ```
 cd 
 wget wget http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/bowtie2-2.2.9-linux-x86_64.zip
 unzip bowtie2-2.2.9-linux-x86_64.zip
 mv bowtie2-2.2.9 BT2_HOME
 ```
-Set up path(you need to set up path again if you are logged in later):
+@Jin - why use bowtie, what is it?  link to its documentation?
+
+Set up path (you need to set up path again if you are logged in later):
 ```
 PATH=$PATH:~/BT2_HOME
 export PATH
 ```
 
-install samtools
+Install SamTools.  
 ```
 apt-get -y install samtools
 ```
+@Jin - add what is samtools and why use it
 
 ## Download data
-First, download referene sequence
+First, download reference sequence.  @Jin add more detail here, what is the reference.
 ```
 cd ~/
 mkdir mapping_counting
@@ -76,6 +86,8 @@ samtools faidx REL606.fa
 ```
 
 Convert the SAM into a BAM file:
+@Jin - add details on why these steps
+
 ```
 
 samtools import REL606.fa.fai SRR098038.sam SRR098038.bam
@@ -93,6 +105,8 @@ samtools index SRR098038.sorted.bam
 ```
 
 ## Visualizing alignment
+@Jin - why do you want to visualize? Add details -- Also, is this on their computer or on the server...tablet may be tricky for them to get installed.
+ 
 At this point you can visualize with samtools tview or Tablet.
 
 ‘samtools tview’ is a text interface that you use from the command line; run it like so:
@@ -135,6 +149,7 @@ samtools mpileup -uD -f REL606.fa SRR098038.sorted.bam | bcftools view -bvcg - >
 (See the ‘mpileup’ docs here.)
 
 Now convert the BCF into VCF:
+@Jin - need details on what this is.
 ```
 bcftools view SRR098038.raw.bcf > SRR098038.vcf
 ```
@@ -149,3 +164,4 @@ Again, you can use ‘samtools tview’ and then type (for example) ‘g’ ‘r
 You can read more about the VCF file format here.
 
 If you are interested in mapping metagenome file or transcriptome file, visit [here](https://github.com/metajinomics/tutorials_en/blob/gh-pages/metagenome/mapping_counting.md) for more tutorials
+@this tutorial isn't that different - I wouldn't reference it....
