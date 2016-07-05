@@ -1,4 +1,6 @@
-#Estimating abundances in metagenomesAuthored by Jin Choi for EDAMAME2016 
+#Estimating abundances in metagenomes
+
+Authored by Jin Choi for EDAMAME2016 
 
 ## Summary
 
@@ -20,6 +22,7 @@
 
 @Jin - add AMI information or what the assumption of the system they are on -- base Ubuntu I think
 @Jin - add an overview - what is the point, objective?  Imagine you have a metagenome created to study and the reference is...etc.
+@Jin - figure out dataset for assembly tutorials streamlining - this tutorial naturally goes after the assembly tutorial
 
 ### Setting up operating system
 ```
