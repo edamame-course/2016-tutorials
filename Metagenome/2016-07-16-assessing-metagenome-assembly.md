@@ -1,7 +1,24 @@
-# Assesing assembly with SPAdes
+# Evaluating or Assessing an Assembly 
 
-## Install 
-intall khmer
+Authored by Jin Choi for EDAMAME2016 
+
+## Summary
+
+### Overarching Goal
+* This tutorial will contribute towards an understanding the assembly of **metagenome data**
+
+### Learning Objectives
+* Understanding methods to evaluate an assembly
+* Understanding assembly metrics
+* Comparing two different assemblies 
+
+## Tutorial
+@Jin add details here - what is goign on -- do we want to assemble same dataset on two assemblers and compare?  Do we want to first get assembly statistics on one assembly?  Can we add paired info on the mapping tutorial or here?  That is a great method to evaluate assemblies.
+
+
+## Install software for this tutorial
+
+Install khmer
 ```
 cd
 python -m virtualenv env
