@@ -128,6 +128,10 @@ First, keep in mind let everthing run under screen then computer still running w
 
 Second, make a bash file. using emacs, make this file `assembly.sh`
 ```
+nano assembly.sh
+```
+then, copy-paste this script below:
+```
 normalize-by-median.py -k 20 -C 20 -N 4 -x 1e9 -s normC20k20.kh *qc.fq
 filter-abund.py -V normC20k20.kh *.keep
 for i in *.keep.abundfilt
