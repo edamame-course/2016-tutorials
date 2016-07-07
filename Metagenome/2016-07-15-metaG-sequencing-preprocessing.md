@@ -38,11 +38,11 @@ We'll be using a tool which is not aware of paired-end reads. This is fine as th
 
 Install software
 ```
-apt-get install python-dev python-pip
-apt-get install fastx-toolkit
+apt-get install python-dev python-pip fastx-toolkit
+pip install screed
 pip install khmer
 ```
-Install 
+Install Trimmomatic
 ```
 cd 
 curl -O http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.36.zip
@@ -50,6 +50,13 @@ unzip Trimmomatic-0.36.zip
 cd Trimmomatic-0.36/
 cp trimmomatic-0.36.jar /usr/local/bin
 cp -r adapters /usr/local/share/adapters
+```
+
+install megehit
+```
+git clone https://github.com/voutcn/megahit.git
+cd megahit
+make
 ```
 
 Download the data (2.4Gb, 10 min):
@@ -172,7 +179,7 @@ Make sure you read the manual for this script, it's part of the [khmer](https://
 
 # Removing Errors from our data
 We'll use the `filter-abund.py` script to trim off any k-mers that are in abundance of 1 in high-coverage reads.
-
+(15 min)
 ```
 filter-abund.py -V normC20k20.kh *.keep
 ```
@@ -184,7 +191,7 @@ If you read the manual, you see that the `-V` option is used to make this work b
 This produces .abundfilt files containing the trimmed sequences.
 
 The process of error trimming could have orphaned reads, so split the PE file into still-interleaved and non-interleaved reads:
-
+(5 min)
 ```
 for i in *.keep.abundfilt
 do
@@ -197,8 +204,8 @@ Now, we'll have a file (or list of files if you're using your own data) which wi
 Let's compress and rename your files:
 
 ```
-gzip *abunfilt.pe
-cat *abunfilt.pe.gz > abunfilt-all.gz
+gzip *abundfilt.pe
+cat *abundfilt.pe.gz > abundfilt-all.gz
 ```
 
 
@@ -210,27 +217,20 @@ Ok, so we've just spent a little while quality checking, quality trimming, norma
 
 First, there are many, many options for assembling metagenomic data.  Most assemblers ([Velvet](http://www.ebi.ac.uk/~zerbino/velvet/), [IDBA](https://code.google.com/p/hku-idba/), [SPAdes](http://bioinf.spbau.ru/spades/)) that work well on genomic data can just as easily be used for metagenomic data, but since they were designed for use on single organisms, they might not be the best choice when you have many (to potentially thousands of) organisms which share genomic signatures.  It's difficult enough to get a good genome assembly from a pure culture of a single organism -- let alone many organisms not sequenced to the depth you need.
 
-We've gone to the trouble of installing some assembly programs to the EDAMAME [ami](), so feel free to experiment in your free time with other assemblers.  We'll be using a *newish* assembler, Megahit v0.2.1 ([program](https://github.com/voutcn/megahit/tree/v0.2.1-a) and [paper](http://bioinformatics.oxfordjournals.org/content/31/10/1674.long)), which has a couple of benefits for us.  One, the assembler is optimized for (i.e. designed to handle) metagenomic reads, and two, it's pretty fast (when compared to other assemblers (i.e. SPAdes) that provide good results on metagenomic data in addition to metagenomic data). Just to note Megahit is now up to version [v0.3-b2](https://github.com/voutcn/megahit), but we will not be using this version in the class. In v0.3-b2 Megahit can use PE information. 
+We've gone to the trouble of installing some assembly programs to the EDAMAME [ami](), so feel free to experiment in your free time with other assemblers.  We'll be using a *newish* assembler, Megahit v1.0.6 ([program](https://github.com/voutcn/megahit) and [paper](http://www.sciencedirect.com/science/article/pii/S1046202315301183)), which has a couple of benefits for us.  One, the assembler is optimized for (i.e. designed to handle) metagenomic reads, and two, it's pretty fast (when compared to other assemblers (i.e. SPAdes) that provide good results on metagenomic data in addition to metagenomic data). 
 
-
-install megehit
-```
-git clone https://github.com/voutcn/megahit.git
-cd megahit
-make
-```
 
 ## Running megahit
 
-First read the [megahit manual here](https://github.com/voutcn/megahit).  The paper can be found here: [Li et al. 2015 MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph](http://bioinformatics.oxfordjournals.org/content/31/10/1674.abstract).
+First read the [megahit manual here](https://github.com/voutcn/megahit).  The paper can be found here: [Li, D., Luo, R., Liu, C.M., Leung, C.M., Ting, H.F., Sadakane, K., Yamashita, H. and Lam, T.W., 2016. MEGAHIT v1.0: A Fast and Scalable Metagenome Assembler driven by Advanced Methodologies and Community Practices. Methods.](http://www.sciencedirect.com/science/article/pii/S1046202315301183).
 
 You'll want to read the (minimal) manual first, but we're going to use a couple of flags:
-  1. We have to set the memory you will use in the analysis, I suggest for our case to use `-m 0.9` which means we'll use 90% of the available CPU memory.  You don't want to use 100% or your computer will not be able to run essential operations.
+  1. We have to set the memory you will use in the analysis, I suggest for our case to use `-m 0.9` which means we'll use 90% of the available CPU memory.  You don't want to use 100% or your computer will not be able to run essential operations. defalut:0.9
   2. Megahit requires us to set the length of the reads that will be ignored.  Just to be safe I have used `-l 500` here, but change it and see if it changes your assembly.  I would not go below your average read length.
 
-Taking that into consideration, we're going to run this code:y
+Taking that into consideration, we're going to run this code:
 ```
-~/megahit/megahit --12 abunfilt-all.gz
+~/megahit/megahit --12 abundfilt-all.gz
 ```
 
 You should slowly see something similar to the following output:
@@ -262,6 +262,24 @@ MEGAHIT v0.2.1-beta
 [Thu Jun  25 18:43:18 2015] ALL DONE.
 ```
 
+
+## Here is the trick
+Since this process takes long time, let's try to use trick.
+
+First, keep in mind let everthing run under screen then computer still running while we are having lunch.
+
+Second, make a bash file. using emacs, make this file `assembly.sh`
+```
+normalize-by-median.py -k 20 -C 20 -N 4 -x 1e9 -s normC20k20.kh *qc.fq
+filter-abund.py -V normC20k20.kh *.keep
+for i in *.keep.abundfilt
+do
+   extract-paired-reads.py $i
+done
+gzip *abundfilt.pe
+cat *abundfilt.pe.gz > abundfilt-all.gz
+~/megahit/megahit --12 abundfilt-all.gz
+```
 
 ##Help and other Resources
 * [khmer documentation and repo](https://github.com/dib-lab/khmer/blob/master/README.rst)
