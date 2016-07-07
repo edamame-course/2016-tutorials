@@ -1,5 +1,5 @@
 
-##Digital Normalization 
+##Digital Normalization and Assembly
 
 Authored by Joshua Herr with contribution from Jackson Sorensen and Jin Choi for EDAMAME2016     
 
@@ -26,7 +26,7 @@ We'll start using the files we generated in the previous step (quality trimming 
 
 Since this process can take a while and is prone to issues with remote computing (internet cutting out, etc.) make sure you're running in `screen` or `tmux` when connecting to your EC2 instance!
 
-# Run a First Round of Digital Normalization
+# Run a Digital Normalization
 Normalize everything to a coverage of 20. The normalize-by-media.py script keeps track of the number of times a particular kmer is present. The flag `-C` sets a median kmer coverage cutoff for sequence. In otherwords, if the median coverage of the kmers in a particular sequence is above this cutoff then the sequence is discarded, if it is below this cutoff then it is kept. We specify the length of kmer we want to analyze using the `-k` flag. The flags `-N` and `-x` work together to specify the amount of memory to be used by the program. As a rule of thumb, the two multiplied should be equal to the available memory(RAM) on your machine. You can check the available memory on your machine with `free -m`. For our m3.large instances we should typically have about 4GB of RAM free.    
 (20 min)
 ```
