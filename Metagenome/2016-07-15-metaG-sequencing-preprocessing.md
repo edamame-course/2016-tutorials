@@ -1,8 +1,8 @@
 
 
 #Metagenome quality trimming
-Authored by Joshua Herr  
-[EDAMAME-2015 wiki](https://github.com/edamame-course/2015-tutorials/wiki)
+Authored by Joshua Herr, with contributions from Jin Choi for EDAMAME2016  
+[EDAMAME-2015 wiki](https://github.com/edamame-course/2016-tutorials/wiki)
 
 ***
 EDAMAME tutorials have a CC-BY [license](https://github.com/edamame-course/2015-tutorials/blob/master/LICENSE.md). _Share, adapt, and attribute please!_
@@ -36,7 +36,7 @@ We'll be using a tool which is not aware of paired-end reads. This is fine as th
 
 **Pro-Tip:** You'll also want to keep in mind that these assemblies take a lot of computer power to run which can cost you some money -- for your own benefit, you can try to optimize your scripts on a desktop or laptop before you actually fire up the AWS instance of this size.
 
-Download the data:
+Download the data (2.4Gb, 10 min):
 ```
 wget https://s3.amazonaws.com/edamame/EDAMAME_MG.tar.gz
 tar -zxvf EDAMAME_MG.tar.gz
@@ -45,6 +45,7 @@ tar -zxvf EDAMAME_MG.tar.gz
 2.  First, let's get an idea of some quality stats from our data.  We're going to first use the ```fastx_quality_stats``` [script](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_statistics_usage) from the Hannon Lab's [fastx-toolkit](http://hannonlab.cshl.edu/fastx_toolkit/index.html) package.
 
 ```
+apt-get install fastx-toolkit
 fastx_quality_stats -i <filename>.fastq -o quality.txt
 
 cat quality.txt
