@@ -60,6 +60,9 @@ tar -zxvf EDAMAME_MG.tar.gz
 Trim
 ```
 java -jar /usr/local/bin/trimmomatic-0.36.jar PE SRR492065_1.fastq.gz SRR492065_2.fastq.gz s1_pe s1_se s2_pe s2_se ILLUMINACLIP:/usr/local/share/adapters/TruSeq3-PE.fa:2:30:10
+```
+interleave (make two paired end file into one)
+```
 interleave-reads.py s?_pe > combined.fq
 ```
 2.  First, let's get an idea of some quality stats from our data.  We're going to first use the ```fastx_quality_stats``` [script](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_statistics_usage) from the Hannon Lab's [fastx-toolkit](http://hannonlab.cshl.edu/fastx_toolkit/index.html) package.
@@ -85,6 +88,7 @@ fastq_quality_filter -Q33 -q 30 -p 50 -i combined.fq > combined-trim.fq
 fastq_quality_filter -Q33 -q 30 -p 50 -i s1_se > s1_se.trim
 fastq_quality_filter -Q33 -q 30 -p 50 -i s2_se > s2_se.trim
 ```
+
 
 This command first uses the ```fastq_quality_filter``` [script](http://hannonlab.cshl.edu/fastx_toolkit/commandline.html#fastq_quality_filter_usage) from Hannon Lab's [fastx-toolkit](http://hannonlab.cshl.edu/fastx_toolkit/index.html) to trim the data using Illumina-33 [Phred quality score](http://en.wikipedia.org/wiki/Phred_quality_score). 
 
@@ -175,7 +179,7 @@ The process of error trimming could have orphaned reads, so split the PE file in
 ```
 for i in *.keep.abundfilt
 do
-   /usr/local/share/khmer/scripts/extract-paired-reads.py $i
+   extract-paired-reads.py $i
 done
 ```
 
@@ -190,6 +194,11 @@ compress file
 ```
 gzip *abunfilt.pe
 cat *abunfilt.pe.gz > abunfilt-all.gz
+```
+
+Finally, assemlby
+```
+~/megahit/megahit --12 abunfilt-all.gz
 ```
 
 These files will be used in the next section where we assemble your metagenomic reads.
