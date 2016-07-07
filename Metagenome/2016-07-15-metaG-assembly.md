@@ -138,6 +138,10 @@ gzip *abundfilt.pe
 cat *abundfilt.pe.gz > abundfilt-all.gz
 ~/megahit/megahit --12 abundfilt-all.gz
 ```
-
+Then, you can run this file;
+```
+bash assembly.sh
+```
+Don't forget to exit `tmux` then your running can be alive. 
 
 
