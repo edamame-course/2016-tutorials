@@ -71,7 +71,7 @@ bowtie2-build final.contigs.fa reference
 ```
 Now, do the mapping of the raw reads to the reference genome (this would be done with -1 and -2 if these were paired-end reads):
 ```
-for x in SRR*_1.fastq.gz;
+for x in SRR*_1.sub.fastq.gz;
   do bowtie2 -x reference -1 $x -2 ${x%_1*}.fastq.gz -S ${x%_1*}.sam 2> ${x%_1*}.out;
 done
 ```
