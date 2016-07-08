@@ -64,15 +64,15 @@ curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR098/SRR098038/SRR098038.fastq.gz
 ## Do the mapping
 Now let’s map all of the reads to the reference. Start by indexing the reference genome:
 ```
-cd ~/mapping_counting
+cd ~/metagenome
 
-bowtie2-build final.contigs.fa reference
+bowtie2-build megahit_out/final.contigs.fa reference
 
 ```
 Now, do the mapping of the raw reads to the reference genome (this would be done with -1 and -2 if these were paired-end reads):
 ```
 for x in SRR*_1.sub.fastq.gz;
-  do bowtie2 -x reference -1 $x -2 ${x%_1*}.fastq.gz -S ${x%_1*}.sam 2> ${x%_1*}.out;
+  do bowtie2 -x megahit_out/reference -1 $x -2 ${x%_1*}.fastq.gz -S ${x%_1*}.sam 2> ${x%_1*}.out;
 done
 ```
 
@@ -81,7 +81,7 @@ This file contains all of the information about where each read hits on the refe
 Next, index the reference genome with samtools:
 
 ```
-samtools faidx final.contigs.fa
+samtools faidx megahit_out/final.contigs.fa
 ```
 
 Convert the SAM into a BAM file:
@@ -89,7 +89,7 @@ Convert the SAM into a BAM file:
 
 ```
 for x in *.sam;
-  do samtools import final.contigs.fa.fai $x $x.bam;
+  do samtools import megahit_out/final.contigs.fa.fai $x $x.bam;
 done
 ```
 
