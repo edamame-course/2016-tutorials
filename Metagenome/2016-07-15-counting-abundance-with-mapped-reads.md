@@ -56,7 +56,7 @@ apt-get -y install samtools
 ## Download data
 First, download reference sequence.  @Jin add more detail here, what is the reference.
 
-download sequencing file
+download sequencing file: this file is the first 100,000 sequences of original file
 ```
 curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR098/SRR098038/SRR098038.fastq.gz
 ```
