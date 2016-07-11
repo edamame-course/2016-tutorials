@@ -1,4 +1,4 @@
-EDAMAME: Community sampling (rarefaction) and diversity learning activity
+###EDAMAME: Community sampling (rarefaction) and diversity learning activity
 
 Congratulations!  You and your colleagues have discovered a novel community of microorganisms inhabiting the core of a Martian rock.  At first glance, there seems to be very high diversity in the community.  To understand the diversity of the new community, you and your colleagues decide to divide the rock into equal parts and independently evaluate the diversity of each subsample, and then calculate the total diversity at the end, across all of the subsamples.  This will provide a more comprehensive, and hopefully, more accurate view of total diversity.  Your mission:  you have a subsample of the community observed from the Martian rock and you must evaluate it!
 
