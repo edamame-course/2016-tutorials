@@ -28,10 +28,3 @@ Be precise about identifying your OTUs – note any distinguishing features (suc
 * (iii)	What is the y-axis? <br>
 * (iv)	In one sentence, summarize the results.  What insights have you gained from the visualization about how completely you have sampled the Martian community? <br>
 
-
-###3B.  Within your Table, plot a rank-abundance distribution of the data.  You may use a spreadsheet program or statistics software to do this, or you can draft it by hand.  This doesn't have to be perfect- a sketch will do.
-
-* (i)	What kind of data visualization that this is (e.g., pie chart – no, it will not be a pie chart)? <br>
-* (ii)	What is the x-axis? <br>
-* (iii)	What is the y-axis? <br>
-* (iv)	In one sentence, summarize the results.  What insights have you gained from the visualization about the evenness of the Martian community? <br>
